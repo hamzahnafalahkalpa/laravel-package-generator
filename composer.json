@@ -1,0 +1,29 @@
+{
+    "name": "hanafalah/laravel-package-generator",
+    "description": "Package yang membantu anda dalam membuat sebuah package",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Hanafalah\\LaravelPackageGenerator\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "hamzah",
+            "email": "hamzahnafalah@gmail.com"
+        }
+    ],
+    "require": {
+        "hanafalah/laravel-package-generator": "1.x-dev as 1.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hanafalah\\LaravelPackageGenerator\\LaravelPackageGeneratorServiceProvider"
+            ]
+        }
+    }
+}
