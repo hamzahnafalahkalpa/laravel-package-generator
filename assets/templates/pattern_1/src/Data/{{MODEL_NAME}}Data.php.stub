@@ -1,0 +1,16 @@
+<?php
+
+namespace {{CLASS_AUTHOR}}\{{CLASS_BASENAME}}\Data;
+
+use Hanafalah\LaravelSupport\Supports\Data;
+use {{CLASS_AUTHOR}}\{{CLASS_BASENAME}}\Contracts\Data\{{MODEL_NAME}}Data as Data{{MODEL_NAME}}Data;
+use {{CLASS_AUTHOR}}\{{CLASS_BASENAME}}\Enums\{{MODEL_NAME}}\Status;
+use Spatie\LaravelData\Attributes\MapInputName;
+use Spatie\LaravelData\Attributes\MapName;
+
+class {{MODEL_NAME}}Data extends Data implements Data{{MODEL_NAME}}Data
+{
+    #[MapInputName('id')]
+    #[MapName('id')]
+    public mixed $id = null;
+}

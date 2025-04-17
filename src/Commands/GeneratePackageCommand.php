@@ -1,26 +1,34 @@
 <?php
 
-namespace Hanafalah\LaravelPackageGenerator;
+namespace Hanafalah\LaravelPackageGenerator\Commands;
 
-use Hanafalah\LaravelPackageGenerator\Contracts\LaravelPackageGenerator as ContractsLaravelPackageGenerator;
+use Hanafalah\LaravelPackageGenerator\Facades\LaravelPackageGenerator;
 use Hanafalah\LaravelStub\Facades\Stub;
-use Hanafalah\LaravelSupport\Supports\PackageManagement;
+use Illuminate\Support\Str;
+use Illuminate\Console\Command;
 
-class LaravelPackageGenerator extends PackageManagement implements ContractsLaravelPackageGenerator
+class GeneratePackageCommand extends Command
 {
+    /**
+     * The name and signature of the console command.
+     */
+    protected $signature = 'generator:add 
+        {package-basename : Nama package}
+        {--package-author : Nama author}
+        {--package-email : Email author}
+        {--pattern= : Pattern yang digunakan}';
 
-    public function generate(): self{
-        $base_name_path = $this->__published_at . DIRECTORY_SEPARATOR . $this->__package_name;
-        if (!is_dir($base_name_path)) mkdir($base_name_path, 0755, true);
+    /**
+     * The console command description.
+     */
+    protected $description = 'Command ini digunakan untuk mengenerate package baru berdasarkan pattern';
 
-        Stub::init($base_name_path)
-        return $this;
-    }
-
-    public function mainClass(): self{
-
-        return $this;
-    }
+    protected string $__package_name, $__snake_package_name;
+    protected array $__stub;
+    protected string $__open, $__close;
+    protected string $__author_email, $__author_name;
+    protected string $__published_at;
+    protected array $__generator_lists;
 
     protected function readPackageBasename(): self{
         $this->__package_name       = $package_name = $this->argument('package-basename');
@@ -43,10 +51,10 @@ class LaravelPackageGenerator extends PackageManagement implements ContractsLara
 
     private function initiateGenerator(): self{
         $config = config('laravel-package-generator');
-        $this->__published_at = $published_at = $config['published_at'];
+        $this->__published_at    = $published_at = $config['published_at'];
 
         //GENERATE MODULE FOLDER
-        $this->generate()
+        LaravelPackageGenerator::generate()
              ->serviceProvider();
 
         $this->__generator_lists = $config['generate'];

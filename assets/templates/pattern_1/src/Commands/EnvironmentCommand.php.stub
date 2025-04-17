@@ -1,0 +1,25 @@
+<?php
+
+namespace {{CLASS_AUTHOR}}\{{CLASS_BASENAME}}\Commands;
+
+use Hanafalah\LaravelSupport\{
+    Commands\BaseCommand
+};
+use Hanafalah\LaravelSupport\Concerns\ServiceProvider\HasMigrationConfiguration;
+
+class EnvironmentCommand extends BaseCommand
+{
+    use HasMigrationConfiguration;
+
+    protected function init(): self
+    {
+        //INITIALIZE SECTION
+        $this->setLocalConfig('{{SNAKE_CLASS_BASENAME}}');
+        return $this;
+    }
+
+    protected function dir(): string
+    {
+        return __DIR__ . '/../';
+    }
+}

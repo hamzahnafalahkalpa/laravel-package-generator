@@ -1,0 +1,47 @@
+<?php
+
+namespace {{CLASS_AUTHOR}}\{{CLASS_BASENAME}}\Schemas;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use {{CLASS_AUTHOR}}\{{CLASS_BASENAME}}\{
+    Supports\Base{{CLASS_BASENAME}}
+};
+use {{CLASS_AUTHOR}}\{{CLASS_BASENAME}}\Contracts\Schemas\{{MODEL_NAME}} as Contracts{{MODEL_NAME}};
+use {{CLASS_AUTHOR}}\{{CLASS_BASENAME}}\Contracts\Data\{{MODEL_NAME}}Data;
+
+class {{MODEL_NAME}} extends Base{{CLASS_BASENAME}} implements Contracts{{MODEL_NAME}}
+{
+    protected string $__entity = '{{MODEL_NAME}}';
+    public static ${{SNAKE_MODEL_NAME}}_model;
+
+    protected array $__cache = [
+        'index' => [
+            'name'     => '{{SNAKE_MODEL_NAME}}',
+            'tags'     => ['{{SNAKE_MODEL_NAME}}', '{{SNAKE_MODEL_NAME}}-index'],
+            'duration' => 60*24
+        ]
+    ];
+
+    public function prepareStore{{MODEL_NAME}}({{MODEL_NAME}}Data ${{SNAKE_MODEL_NAME}}_dto): Model{
+        $model = $this->{{MODEL_NAME}}Model()->updateOrCreate([
+                        'id' => ${{SNAKE_MODEL_NAME}}_dto->id ?? null
+                    ], [
+                        'name' => ${{SNAKE_MODEL_NAME}}_dto->name
+                    ]);
+        return static::${{SNAKE_MODEL_NAME}}_model = $model;
+    }
+
+    public function store{{MODEL_NAME}}(?{{MODEL_NAME}}Data ${{SNAKE_MODEL_NAME}}_dto = null): array{
+        return $this->transaction(function() use (${{SNAKE_MODEL_NAME}}_dto){
+            return $this->show{{MODEL_NAME}}($this->prepareStore{{MODEL_NAME}}(${{SNAKE_MODEL_NAME}}_dto ?? $this->requestDTO({{MODEL_NAME}}Data::class)));
+        });
+    }
+
+    public function {{CAMEL_MODEL_NAME}}(mixed $conditionals = null): Builder{
+        $this->booting();
+        return $this->{{MODEL_NAME}}Model()->withParameters()
+                    ->conditionals($this->mergeCondition($conditionals ?? []));
+                    // ->orderBy('name', 'asc');
+    }
+}
