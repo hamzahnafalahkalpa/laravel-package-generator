@@ -8,15 +8,6 @@ use Hanafalah\LaravelSupport\Supports\PackageManagement;
 
 class LaravelPackageGenerator extends PackageManagement implements ContractsLaravelPackageGenerator
 {
-
-    public function generate(): self{
-        $base_name_path = $this->__published_at . DIRECTORY_SEPARATOR . $this->__package_name;
-        if (!is_dir($base_name_path)) mkdir($base_name_path, 0755, true);
-
-        Stub::init($base_name_path)
-        return $this;
-    }
-
     public function mainClass(): self{
 
         return $this;
