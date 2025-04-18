@@ -4,7 +4,10 @@ namespace {{NAMESPACE}}\Providers;
 
 use Exception;
 use Illuminate\Foundation\Http\Kernel;
-use Hanafalah\LaravelSupport\Concerns\NowYouSeeMe;
+use Hanafalah\LaravelSupport\{
+    Concerns\NowYouSeeMe,
+    Supports\PathRegistry
+};
 use Illuminate\Support\Str;
 use Hanafalah\ModuleWorkspace\Contracts\Data as WorkspaceDTO;
 use {{NAMESPACE}}\{
@@ -13,7 +16,7 @@ use {{NAMESPACE}}\{
     Facades
 };
 //use {{NAMESPACE}}\Data\ModuleWorkspace\WorkspaceSettingData;
-use {{NAMESPACE}}\Middlewares\PayloadMonitoring;
+use Hanafalah\LaravelSupport\Middlewares\PayloadMonitoring;
 
 class {{CLASS_BASENAME}}ServiceProvider extends {{CLASS_BASENAME}}Environment
 {
@@ -52,6 +55,14 @@ class {{CLASS_BASENAME}}ServiceProvider extends {{CLASS_BASENAME}}Environment
                 'Model', 'Database'
             ]);
             $this->registerRouteService(RouteServiceProvider::class);
+
+            $this->app->singleton(PathRegistry::class, function () {
+                $registry = new PathRegistry();
+
+                $config = config("{{SNAKE_CLASS_BASENAME}}");
+                foreach ($config['libs'] as $key => $lib) $registry->set($key, '{{LOCAL_PATH}}'.$lib);
+                return $registry;
+            });
         });
     }
 }

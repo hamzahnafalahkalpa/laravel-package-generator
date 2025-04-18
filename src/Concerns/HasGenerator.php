@@ -122,7 +122,7 @@ trait HasGenerator{
     private function generate(): self{
         $config = config('laravel-package-generator');
         $source = $this->__published_at = $published_at = $config['published_at'];
-        $this->__replacements['LOCAL_PATH'] = $published_at;
+        $this->__replacements['LOCAL_PATH'] = Str::replace(base_path().'/','',$published_at);
         $this->__at_source = $source .= '/'.$this->__class_basename.'/src';
 
         $patterns = array_keys($config['patterns']);

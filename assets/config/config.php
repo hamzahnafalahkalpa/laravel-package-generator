@@ -11,7 +11,7 @@ return [
         'schema'    => 'Schemas'
     ],
     'published_at'    => base_path(env('GENERATOR_PUBLISHED_AT','Modules')),
-    'base_stub'       => base_path(env('GENERATOR_PUBLISHED_AT','Modules')),
+    'namespace'       => base_path(env('GENERATOR_NAMESPACE','Modules')),
     'patterns'        => [
         'repository' => [
             //files has same structure with main generate
@@ -73,6 +73,7 @@ return [
                 'controller'      => ['type' => 'dir','path' => 'Controllers','generate' => true, 'stub' => null, 'files' => []],
                 'provider'        => ['type' => 'dir','path' => 'Providers','generate' => true, 'stub' => null, 'files' => [
                     'CommandServiceProvider' => ['generate' => true, 'stub' => 'CommandServiceProvider.php.stub'],
+                    'RouteServiceProvider'   => ['generate' => true, 'stub' => 'RouteServiceProvider.php.stub'],
                     '{{CLASS_BASENAME}}Environment' => ['generate' => true, 'stub' => 'project-EnvironmentServiceProvider.php.stub'],
                     '{{CLASS_BASENAME}}ServiceProvider' => ['type' => 'file','path' => '', 'generate' => true, 'stub' => 'project-main-provider.php.stub'],
                 ]],

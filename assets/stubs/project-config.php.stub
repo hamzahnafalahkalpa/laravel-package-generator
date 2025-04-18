@@ -7,6 +7,7 @@ use {{NAMESPACE}}\{
 return [
     "service_name"  => "{{CLASS_BASENAME}}",
     "paths"         => [
+        "local_path"   => '{{LOCAL_PATH}}',
         "base_path"    => __DIR__.'\\..\\'
     ],
     "libs"           => {{LIBS}},
