@@ -1,6 +1,6 @@
 <?php
 
-namespace Hanafalah\LaravelPackageGenerator\Concerns\Commands;
+namespace Hanafalah\LaravelPackageGenerator\Concerns;
 
 trait GeneratorPath{
     /**
@@ -58,7 +58,7 @@ trait GeneratorPath{
     }
 
     protected function getIgnoreStubPath(): string{
-        return $this->getBaseStub().'/ignore.stub';
+        return $this->getBaseStub().'/.gitignore.stub';
     }
 
     /**

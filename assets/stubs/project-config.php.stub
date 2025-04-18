@@ -1,0 +1,41 @@
+<?php
+
+use {{NAMESPACE}}\{
+    Contracts, Models, Commands
+};
+
+return [
+    "service_name"  => "{{CLASS_BASENAME}}",
+    "paths"         => [
+        "base_path"    => __DIR__.'\\..\\'
+    ],
+    "libs"           => {{LIBS}},
+    "packages" => [
+        /*--------------------------------------------------------------------------
+        * Note: The contents of the packages are started with the class base name,
+        * then followed by config and others. You can be used to override default package config
+        * "module-user" => [
+        *       "config" => []
+        * ]
+        *------------------------------------------------------------------------*/
+    ],
+    "app" => [
+        "impersonate" => [
+            "storage"   => [
+                "driver" => env("FILESYSTEM_DISK", 'local'),
+            ],
+        ],
+        "contracts" => [
+        ],
+    ],
+    "database"     => [
+        "models"   => [
+        ]
+    ],
+    "commands" => [
+        Commands\SeedCommand::class,
+        Commands\MigrateCommand::class
+    ],
+    "encodings" => [
+    ],
+];

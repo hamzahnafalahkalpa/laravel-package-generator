@@ -15,11 +15,11 @@ class LaravelPackageGeneratorServiceProvider extends BaseServiceProvider
       ->registers([
         '*',
         'Config',
-        'Namespace' => function(){
-          $this->publishes([
-            $this->getAssetPath('templates') => template_base_path(),
-          ], 'template');
-        }
+        // 'Namespace' => function(){
+        //   $this->publishes([
+        //     $this->getAssetPath('templates') => template_base_path(),
+        //   ], 'template');
+        // }
       ])
       ->appBooting(function ($app) {
         config(['laravel-stub.stub' => config('laravel-package-generator.stub')]);

@@ -1,0 +1,57 @@
+<?php
+
+namespace {{NAMESPACE}}\Providers;
+
+use Exception;
+use Illuminate\Foundation\Http\Kernel;
+use Hanafalah\LaravelSupport\Concerns\NowYouSeeMe;
+use Illuminate\Support\Str;
+use Hanafalah\ModuleWorkspace\Contracts\Data as WorkspaceDTO;
+use {{NAMESPACE}}\{
+    {{CLASS_BASENAME}},
+    Contracts,
+    Facades
+};
+//use {{NAMESPACE}}\Data\ModuleWorkspace\WorkspaceSettingData;
+use {{NAMESPACE}}\Middlewares\PayloadMonitoring;
+
+class {{CLASS_BASENAME}}ServiceProvider extends {{CLASS_BASENAME}}Environment
+{
+    use NowYouSeeMe;
+
+    public function register()
+    {
+        $this->registerMainClass({{CLASS_BASENAME}}::class)
+             ->registerCommandService(CommandServiceProvider::class)
+             ->registerServices(function(){
+                 $this->binds([
+                    Contracts\{{CLASS_BASENAME}}::class => function(){
+                        return new {{CLASS_BASENAME}};
+                    },
+                    //WorkspaceDTO\WorkspaceSettingData::class => WorkspaceSettingData::class
+                ]);
+            });
+    }
+
+    public function boot(Kernel $kernel){
+        $kernel->pushMiddleware(PayloadMonitoring::class);
+        // codes that will be run after the package booted
+        $this->app->booted(function(){
+            $this->registers([
+                '*',
+                'Config' => function() {
+                    $this->__config_{{SNAKE_CLASS_BASENAME}} = config('{{CONFIG_NAME}}');
+                },
+                'Provider' => function() {
+                    $model = Facades\{{CLASS_BASENAME}}::myModel($this->WorkspaceModel()->find({{CLASS_BASENAME}}::ID));
+                    if (!isset($model)) throw new Exception('{{CLASS_BASENAME}} Model not found');
+                    $config_name = Str::kebab($model->name);
+                    $this->bootedRegisters($model->packages, $config_name, __DIR__.'/../'.$this->__config_{{SNAKE_CLASS_BASENAME}}['libs']['migration'] ?? 'Migrations');
+                    $this->registerOverideConfig($config_name,__DIR__.'/../'.$this->__config_{{SNAKE_CLASS_BASENAME}}['libs']['config']);
+                },
+                'Model', 'Database'
+            ]);
+            $this->registerRouteService(RouteServiceProvider::class);
+        });
+    }
+}

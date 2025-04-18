@@ -9,7 +9,8 @@ class CommandServiceProvider extends ServiceProvider
 {
     protected $__commands = [
         Commands\InstallMakeCommand::class,
-        Commands\GeneratePackageCommand::class
+        Commands\GeneratePackageCommand::class,
+        Commands\ModelMakeCommand::class
     ];
 
     public function register()

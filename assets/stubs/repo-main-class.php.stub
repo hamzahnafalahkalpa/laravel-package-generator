@@ -1,0 +1,10 @@
+<?php
+
+namespace {{NAMESPACE}};
+
+use {{NAMESPACE}}\{{contract}}\{{CLASS_BASENAME}} as Contracts{{CLASS_BASENAME}};
+use {{NAMESPACE}}\{{support}}\Base{{CLASS_BASENAME}};
+
+class {{CLASS_BASENAME}} extends Base{{CLASS_BASENAME}} implements Contracts{{CLASS_BASENAME}} {
+    
+}
