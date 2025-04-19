@@ -7,6 +7,10 @@ use {{NAMESPACE}}\{
 };
 
 return [
+    "paths"         => [
+        "local_path"   => "{{LOCAL_PATH}}",
+        "base_path"    => __DIR__.'\\..\\'
+    ],
     'app' => [
         'contracts' => [
         ],

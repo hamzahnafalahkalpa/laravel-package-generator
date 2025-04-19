@@ -10,10 +10,9 @@ return [
         'contract'  => 'Contracts',
         'schema'    => 'Schemas'
     ],
-    'published_at'    => base_path(env('GENERATOR_PUBLISHED_AT','Modules')),
-    'namespace'       => base_path(env('GENERATOR_NAMESPACE','Modules')),
     'patterns'        => [
         'repository' => [
+            'published_at' => base_path('Modules'),
             //files has same structure with main generate
             'generates' => [
                 'asset'             => ['type' => 'dir','path' => '../assets', 'generate' => true, 'stub' => null, 'files'=>[]],
@@ -67,7 +66,8 @@ return [
             ]
         ],
         'project'     => [
-            'generates' => [
+            'published_at' => app_path('Projects'),
+            'generates'    => [
                 'migration'       => ['type' => 'dir','path' => 'Database/Migrations', 'generate' => true, 'stub' => null, 'files' => []],
                 'model'           => ['type' => 'dir','path' => 'Models','generate' => true, 'stub' => null, 'files' => []],
                 'controller'      => ['type' => 'dir','path' => 'Controllers','generate' => true, 'stub' => null, 'files' => []],

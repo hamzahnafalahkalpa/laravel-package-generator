@@ -49,11 +49,11 @@ trait HasGenerator{
     }
 
     protected function readPackageBasename(): self{
-        $this->__namespace          = $this->argument('namespace');
-        $this->__class_basename     = $class_basename = Str::afterLast($this->__namespace,'\\');
-        $this->__snake_class_basename = Str::snake($class_basename,'-');
+        $this->__namespace                  = $this->argument('namespace');
+        $this->__class_basename             = $class_basename = Str::afterLast($this->__namespace,'\\');
+        $this->__snake_class_basename       = Str::snake($class_basename,'-');
         $this->__snake_lower_class_basename = Str::snake($class_basename);
-        $this->__replacements['NAMESPACE']            = $this->__namespace;
+        $this->__replacements['NAMESPACE']  = $this->__namespace;
         $namespaces = explode('\\',$this->__namespace);
         foreach ($namespaces as $key => &$namespace) {
             if ($key == 0) $this->__first_namespace = $namespace;
@@ -114,18 +114,21 @@ trait HasGenerator{
     }
 
     private function generate(): self{
-        $config = config('laravel-package-generator');
-        $source = $this->__published_at = $published_at = $config['published_at'];
+        $config = config('laravel-package-generator');        
+        $pattern  = $this->option('pattern');
+        if (!isset($pattern)){
+            $patterns = array_keys($config['patterns']);
+            $pattern = select(
+                label: 'Choose Generator Pattern?',
+                options: $patterns,
+                default: $patterns[0] ?? null,
+                hint: 'Select pattern for blue print generator'
+            );
+        }
+
+        $source = $this->__published_at = $published_at = $config['patterns'][$pattern]['published_at'];
         $this->__replacements['LOCAL_PATH'] = Str::replace(base_path().'/','',$published_at);
         $this->__at_source = $source .= '/'.$this->__class_basename.'/src';
-
-        $patterns = array_keys($config['patterns']);
-        $pattern = select(
-            label: 'Choose Generator Pattern?',
-            options: $patterns,
-            default: $patterns[0] ?? null,
-            hint: 'Select pattern for blue print generator'
-        );
 
         //GENERATE MODULE FOLDER
         $this->makeDir($published_at);
