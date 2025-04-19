@@ -96,12 +96,6 @@ trait HasGenerator{
 
     protected function initiateReplacement(): self{
         $this->__replacements = array_merge($this->__replacements,[
-            // 'NAMESPACE'            => $this->__namespace ?? null,
-            // 'SNAKE_NAMESPACE'      => $this->__snake_namespace ?? null,
-            // 'FIRST_NAMESPACE'      => $this->__first_namespace ?? null,
-            // 'CLASS_BASENAME'       => $this->__class_basename ?? null,
-            // 'SNAKE_CLASS_BASENAME' => $this->__snake_class_basename ?? null,
-            // 'SNAKE_LOWER_CLASS_BASENAME' => $this->__snake_lower_class_basename ?? null,
             'AUTHOR_NAME'          => $this->__author_name ?? null,
             'AUTHOR_EMAIL'         => $this->__author_email ?? null,
             'LIBS'                 => $this->__libs ?? []
