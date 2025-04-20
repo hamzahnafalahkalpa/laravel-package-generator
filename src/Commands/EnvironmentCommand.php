@@ -11,7 +11,7 @@ class EnvironmentCommand extends BaseCommand
     use HasMigrationConfiguration;
     use HasMicrotenant;
 
-    protected function init(): self
+    public function init(): self
     {
         //INITIALIZE SECTION
         $this->initConfig()->setLocalConfig('laravel-package-generator');

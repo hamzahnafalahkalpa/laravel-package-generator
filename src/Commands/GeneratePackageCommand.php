@@ -3,17 +3,16 @@
 namespace Hanafalah\LaravelPackageGenerator\Commands;
 
 use Hanafalah\LaravelPackageGenerator\Concerns\HasGenerator;
-use Illuminate\Console\Command;
+use Hanafalah\LaravelSupport\Commands\BaseCommand;
 
-class GeneratePackageCommand extends Command
+class GeneratePackageCommand extends BaseCommand
 {
     use HasGenerator;
 
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'generator:add 
-        {namespace : Namespace Package ex: Hanafalah\\LaravelPackageGenerator}
+    protected $signature = 'generator:add {namespace}
         {--package-author= : Nama author}
         {--package-email= : Email author}
         {--pattern= : Pattern yang digunakan}';
@@ -25,6 +24,6 @@ class GeneratePackageCommand extends Command
 
     public function handle(): void
     {
-        $this->init()->generate();
+        $this->initGenerator()->generatePattern();
     }
 }

@@ -5,6 +5,7 @@ use {{NAMESPACE}}\{
 };
 
 return [
+    "namespace"     => "{{NAMESPACE}}",
     "service_name"  => "{{CLASS_BASENAME}}",
     "paths"         => [
         "local_path"   => '{{LOCAL_PATH}}',

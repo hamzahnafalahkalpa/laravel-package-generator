@@ -18,9 +18,9 @@ trait HasGenerator{
     protected array $__stub;
     protected string $__published_at;
     protected string $__base_stub;
-    protected string $__at_source, $__relative_path;
-    protected string $__open, $__close;
-    protected array $__generator_lists, $__config, $__replacements = [];
+    protected string $__at_source, $__relative_path, $__pattern;
+    protected string $__open, $__close, $__render;
+    protected array $__generator_lists, $__config_generator, $__config_basename, $__replacements = [];
     protected mixed $__namespace, $__class_basename, 
         $__first_namespace,
         $__snake_class_basename,
@@ -33,25 +33,41 @@ trait HasGenerator{
     }
 
     protected function getPackageSource(string $path): string{
-        return $this->__published_at.DIRECTORY_SEPARATOR.$this->__class_basename.DIRECTORY_SEPARATOR.'src/'.$path;
+        return $this->__published_at.DIRECTORY_SEPARATOR.$this->__snake_class_basename.DIRECTORY_SEPARATOR.'src/'.$path;
     }
 
     protected function getBaseStub(): string{
         return $this->__base_stub;
     }
 
-    public function init():self{
+    public function initGenerator():self{
         $this->readPackageBasename()
-             ->initConfig()
+             ->initialConfig()
              ->initiateStub()
-             ->initiateAuthor()
-             ->initiateReplacement();
+             ->setLibs();
+        if ($this->getDefinition()->hasOption('package-author')) $this->initiateAuthor();
+        $this->initiateReplacement();
+        return $this;
+    }
+
+    protected function setFirstNamespace(string $first_namespace): self{
+        $this->__first_namespace = $first_namespace;
+        $this->__replacements['FIRST_NAMESPACE'] = $this->__first_namespace;
+        return $this;
+    }
+
+    protected function setNamespace(? string $namespace = null): self{
+        $this->__namespace = $namespace ?? $this->__first_namespace.'\\'.$this->__class_basename;
+        $this->__replacements['NAMESPACE'] = $this->__namespace;
         return $this;
     }
 
     protected function readPackageBasename(): self{
-        $this->__namespace                  = Str::replace('/','\\',$this->argument('namespace'));
-        $this->__class_basename             = $class_basename = Str::afterLast($this->__namespace,'\\');
+        if ($this->getDefinition()->hasArgument('namespace')){
+            $this->__namespace = Str::replace('/','\\',$this->argument('namespace'));
+        }
+        $this->__class_basename = Str::afterLast($this->__namespace,'\\');
+        $class_basename = $this->__class_basename;
         $this->__snake_class_basename       = Str::snake($class_basename,'-');
         $this->__snake_lower_class_basename = Str::snake($class_basename);
         $this->__replacements['NAMESPACE']  = $this->__namespace;
@@ -69,8 +85,8 @@ trait HasGenerator{
         return $this;
     }
 
-    protected function initConfig(): self{
-        $this->__config = config('laravel-package-generator');
+    protected function initialConfig(): self{
+        $this->__config_generator = config('laravel-package-generator');
         return $this;
     }
 
@@ -120,16 +136,41 @@ trait HasGenerator{
         return $this->__replacements;
     }
 
-    protected function makeDir(string $relative_path){
-        if (!is_dir($relative_path)) mkdir($relative_path, 0777, true);
-        return $relative_path;
+    protected function scanListByPattern(string $pattern): array{
+        $published_at = $this->__published_at;
+        $base_names = array_map(function($path){
+            return basename($path);
+        },glob($published_at.DIRECTORY_SEPARATOR.'*',GLOB_ONLYDIR));
+        return $base_names;
     }
 
-    private function generate(): self{
-        $config = config('laravel-package-generator');        
+    protected function chooseClassBasename(string $pattern): self{
+        $base_names = $this->scanListByPattern($pattern);
+        $this->__class_basename = $class_basename = Str::studly(select(
+            label: 'Choose Class Basename?',
+            options: $base_names,
+            default: $base_names[0] ?? null,
+            hint: 'Select class basename for blue print generator'
+        ));
+        $this->__replacements['CLASS_BASENAME'] = $class_basename;
+        $this->__config_basename = $config_basename = config(Str::snake($class_basename,'-'));
+        if (!isset($config_basename)) throw new \Exception('Config '.$config_basename.' not found');
+        $this->setFirstNamespace(explode('\\',$config_basename['namespace'])[0]);
+        $this->setNamespace();
+        return $this;
+    }
+
+    protected function getPublishedAtByPattern(string $pattern): string{
+        $source = $this->__published_at = $published_at = $this->__config_generator['patterns'][$pattern]['published_at'];
+        $this->__replacements['LOCAL_PATH'] = Str::replace(base_path().'/','',$published_at);
+        return $source;
+    }
+
+    protected function choosePattern(): self{
+        $this->initialConfig();
         $pattern  = $this->option('pattern');
         if (!isset($pattern)){
-            $patterns = array_keys($config['patterns']);
+            $patterns = array_keys($this->__config_generator['patterns']);
             $pattern = select(
                 label: 'Choose Generator Pattern?',
                 options: $patterns,
@@ -137,22 +178,36 @@ trait HasGenerator{
                 hint: 'Select pattern for blue print generator'
             );
         }
+        $this->__pattern = $pattern;
+        $source = $this->getPublishedAtByPattern($pattern);
+        if (!isset($this->__class_basename)) {
+            $this->chooseClassBasename($pattern);
+        }
+        $this->__snake_class_basename = Str::snake($this->__class_basename,'-');
+        $this->__at_source = $source .= '/'.$this->__snake_class_basename.'/src';
+        return $this;
+    }
 
-        $source = $this->__published_at = $published_at = $config['patterns'][$pattern]['published_at'];
-        $this->__replacements['LOCAL_PATH'] = Str::replace(base_path().'/','',$published_at);
-        $this->__at_source = $source .= '/'.$this->__class_basename.'/src';
-
-        //GENERATE MODULE FOLDER
-        $this->makeDir($published_at);
-        $this->__generator_lists = $config['patterns'][$pattern]['generates'];
-        foreach ($this->__generator_lists as $key => $generator) {
-            if ($generator['generate']){
-                if ($generator['type'] == 'dir'){
-                    $this->__relative_path = $this->makeDir($source.DIRECTORY_SEPARATOR.$generator['path']);
-                    $this->__libs[$key] = $generator['path'];
+    protected function setLibs(?array $libs = null): self{
+        if (isset($libs)){
+            $this->__libs = $libs;
+        }else{
+            if (isset($this->__pattern)){
+                $this->__generator_lists = $this->__config_generator['patterns'][$this->__pattern]['generates'];
+                foreach ($this->__generator_lists as $key => $generator) {
+                    if ($generator['generate']){
+                        if ($generator['type'] == 'dir'){
+                            $this->__relative_path = $this->makeDir($this->__at_source.DIRECTORY_SEPARATOR.$generator['path']);
+                            $this->__libs[$key] = $generator['path'];
+                        }
+                    }
                 }
             }
         }
+        return $this;
+    }
+
+    protected function initiateLibsReplacement(): self{
         $this->__replacements['LIBS'] = $this->__libs;
         $this->__replacements['NAMESPACES'] = [];
         foreach ($this->__replacements['LIBS'] as $key => $namespace) {
@@ -163,6 +218,20 @@ trait HasGenerator{
             $namespace = implode('\\', $namespaces);
             $this->__replacements['NAMESPACES'][$key.'_namespace'] = $namespace;
         }
+        return $this;
+    }
+
+    protected function generatePattern(): self{
+        $this->choosePattern();
+        $config       = $this->__config_generator;
+        $published_at = $this->__published_at;
+        $pattern      = $this->__pattern;
+        $source       = $this->__at_source;
+
+        //GENERATE MODULE FOLDER
+        $this->makeDir($published_at);
+        $this->setLibs();
+        $this->initiateLibsReplacement();
         foreach ($this->__generator_lists as $key => $generator) {
             $filename = $generator['filename'] ?? $key;
             if ($generator['generate']){
@@ -185,7 +254,7 @@ trait HasGenerator{
         return $this;
     }
     
-    protected function generateFile(string $filename, array $generator): self{
+    protected function generateFile(string $filename, array $generator): string{
         $this->cardLine('Generating '.$filename,function() use ($generator,$filename){
             preg_match_all('/' . $this->__open . '(.*?)' . $this->__close . '/', $filename, $matches);
             foreach ($matches[0] as $key => $match) {
@@ -200,10 +269,11 @@ trait HasGenerator{
             } else {
                 $ext = '.'.Str::afterLast($ext, '.');
             }
-            Stub::init(generator_stub_path($generator['stub']),$this->__replacements)
-                ->saveTo($this->getPackageSource($generator['path']).'/',$filename.$ext);
+            $stub = Stub::init(generator_stub_path($generator['stub']),$this->__replacements);
+            $this->__render = $stub->render();
+            $stub->saveTo($this->getPackageSource($generator['path']).'/',$filename.$ext);
         });
-        return $this;
+        return $this->__render;
     }
 
     protected function resolveToken(string $token): string{

@@ -20,7 +20,7 @@ return [
                     'config'        => ['generate' => true, 'stub' => 'repo-config.php.stub']
                 ]],
                 'migration'         => ['type' => 'dir','path' => '../assets/database/migrations', 'generate' => true, 'stub' => null, 'files'=>[]],
-                'model'             => ['type' => 'dir','path' => 'Models','generate' => true, 'stub' => null, 'files'=>[]],
+                'model'             => ['type' => 'dir','path' => 'Models','generate' => true, 'stub' => 'model.php.stub', 'files'=>[]],
                 'controller'        => ['type' => 'dir','path' => 'Controllers','generate' => false, 'stub' => null, 'files'=>[]],
                 'provider'          => ['type' => 'dir','path' => 'Providers','generate' => true, 'stub' => null, 'files'=>[
                     'CommandServiceProvider' => ['generate' => true, 'stub' => 'CommandServiceProvider.php.stub'],
@@ -55,7 +55,7 @@ return [
                     '{{CLASS_BASENAME}}' => ['generate' => true, 'stub' => 'ModuleFacade.php.stub']
                 ]],
                 'gitignore'         => ['filename' => '.gitignore','type' => 'file','path' => '../', 'generate' => true, 'stub' => '.gitignore.stub', 'files'=>[]],
-                'composer'          => ['type' => 'file','path' => '../', 'generate' => true, 'stub' => 'composer.json.stub', 'files'=>[]],
+                'composer'          => ['type' => 'file','path' => '../', 'generate' => true, 'stub' => 'repo-composer.json.stub', 'files'=>[]],
                 'helper'            => ['type' => 'file','path' => '', 'generate' => true, 'stub' => 'helper.php.stub', 'files'=>[]],
 
                 //FILE
@@ -75,7 +75,7 @@ return [
             'published_at' => app_path('Projects'),
             'generates'    => [
                 'migration'       => ['type' => 'dir','path' => 'Database/Migrations', 'generate' => true, 'stub' => null, 'files' => []],
-                'model'           => ['type' => 'dir','path' => 'Models','generate' => true, 'stub' => null, 'files' => []],
+                'model'           => ['type' => 'dir','path' => 'Models','generate' => true, 'stub' => 'model.php.stub', 'files'=>[]],
                 'controller'      => ['type' => 'dir','path' => 'Controllers','generate' => true, 'stub' => null, 'files' => []],
                 'provider'        => ['type' => 'dir','path' => 'Providers','generate' => true, 'stub' => null, 'files' => [
                     'CommandServiceProvider' => ['generate' => true, 'stub' => 'CommandServiceProvider.php.stub'],
@@ -99,7 +99,7 @@ return [
                 'data'            => ['type' => 'dir','path' => 'Datas', 'generate' => true, 'stub' => null, 'files' => []],
                 'policy'          => ['type' => 'dir','path' => 'Policies', 'generate' => true, 'stub' => null, 'files' => []],
                 'job'             => ['type' => 'dir','path' => 'Jobs', 'generate' => false, 'stub' => null, 'files' => []],
-                'resource'        => ['type' => 'dir','path' => 'Resources', 'generate' => false, 'stub' => null, 'files' => []],
+                'resource'        => ['type' => 'dir','path' => 'Resources', 'generate' => true, 'stub' => null, 'files' => []],
                 'seeder'          => ['type' => 'dir','path' => 'Database/Seeders', 'generate' => true, 'stub' => null, 'files' => [
                     'DatabaseSeeder' => ['generate' => true, 'stub' => 'DatabaseSeeder.php.stub']
                 ]],
@@ -117,6 +117,7 @@ return [
                 'config'          => ['type' => 'dir','path' => 'Config', 'generate' => true, 'stub' => null, 'files' => [
                     'config'        => ['generate' => true, 'stub' => 'project-config.php.stub']
                 ]],
+                'composer'          => ['type' => 'file','path' => '../', 'generate' => true, 'stub' => 'project-composer.json.stub', 'files'=>[]],
 
                 //FILE
                 'gitignore'          => ['filename' => '.gitignore','type' => 'file','path' => '', 'generate' => true, 'stub' => '.gitignore.stub'],
