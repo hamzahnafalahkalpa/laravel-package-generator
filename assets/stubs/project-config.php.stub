@@ -35,8 +35,10 @@ return [
     ],
     "commands" => [
         Commands\SeedCommand::class,
-        Commands\MigrateCommand::class
+        Commands\MigrateCommand::class,
+        Commands\InstallMakeCommand::class
     ],
     "encodings" => [
     ],
+    "provider" => "{{NAMESPACE}}\\{{provider_namespace}}\\{{CLASS_BASENAME}}ServiceProvider"
 ];

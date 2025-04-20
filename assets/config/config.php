@@ -24,20 +24,26 @@ return [
                 'controller'        => ['type' => 'dir','path' => 'Controllers','generate' => false, 'stub' => null, 'files'=>[]],
                 'provider'          => ['type' => 'dir','path' => 'Providers','generate' => true, 'stub' => null, 'files'=>[
                     'CommandServiceProvider' => ['generate' => true, 'stub' => 'CommandServiceProvider.php.stub'],
+                    'RouteServiceProvider'   => ['generate' => true, 'stub' => 'RouteServiceProvider.php.stub']
                 ]],
                 'contract'          => ['type' => 'dir','path' => 'Contracts', 'generate' => true, 'stub' => null, 'files'=>[]],
                 'concern'           => ['type' => 'dir','path' => 'Concerns', 'generate' => true, 'stub' => null, 'files'=>[]],
                 'command'           => ['type' => 'dir','path' => 'Commands', 'generate' => true, 'stub' => null, 'files'=>[
+                    'SeedCommand'    => ['generate' => true, 'stub' => 'SeedCommand.php.stub'],
+                    'MigrateCommand' => ['generate' => true, 'stub' => 'MigrateCommand.php.stub'],
                     'InstallMakeCommand' => ['generate' => true, 'stub' => 'InstallMakeCommand.php.stub'],
                     'EnvironmentCommand' => ['generate' => true, 'stub' => 'repo-EnvironmentCommand.php.stub']
                 ]],
                 'route'             => ['type' => 'dir','path' => 'Routes', 'generate' => true, 'stub' => null, 'files'=>[]],
                 'event'             => ['type' => 'dir','path' => 'Events', 'generate' => false, 'stub' => null, 'files'=>[]],
                 'observer'          => ['type' => 'dir','path' => 'Observers', 'generate' => false, 'stub' => null, 'files'=>[]],
+                'data'              => ['type' => 'dir','path' => 'Datas', 'generate' => true, 'stub' => null, 'files' => []],
                 'policy'            => ['type' => 'dir','path' => 'Policies', 'generate' => false, 'stub' => null, 'files'=>[]],
                 'job'               => ['type' => 'dir','path' => 'Jobs', 'generate' => false, 'stub' => null, 'files'=>[]],
                 'resource'          => ['type' => 'dir','path' => 'Resources', 'generate' => true, 'stub' => null, 'files'=>[]],
-                'seeder'            => ['type' => 'dir','path' => 'Database/Seeders', 'generate' => true, 'stub' => null, 'files'=>[]],
+                'seeder'            => ['type' => 'dir','path' => 'Database/Seeders', 'generate' => true, 'stub' => null, 'files'=>[
+                    'DatabaseSeeder' => ['generate' => true, 'stub' => 'DatabaseSeeder.php.stub'],
+                ]],
                 'middleware'        => ['type' => 'dir','path' => 'Middleware', 'generate' => true, 'stub' => null, 'files'=>[]],
                 'request'           => ['type' => 'dir','path' => 'Requests', 'generate' => false, 'stub' => null, 'files'=>[]],
                 'support'           => ['type' => 'dir','path' => 'Supports', 'generate' => true, 'stub' => null, 'files'=>[
@@ -82,16 +88,21 @@ return [
                 ]],
                 'concern'         => ['type' => 'dir','path' => 'Concerns', 'generate' => true, 'stub' => null, 'files' => []],
                 'command'         => ['type' => 'dir','path' => 'Commands', 'generate' => true, 'stub' => null, 'files' => [
+                    'SeedCommand'    => ['generate' => true, 'stub' => 'SeedCommand.php.stub'],
+                    'MigrateCommand' => ['generate' => true, 'stub' => 'MigrateCommand.php.stub'],
                     'InstallMakeCommand' => ['generate' => true, 'stub' => 'InstallMakeCommand.php.stub'],
                     'EnvironmentCommand' => ['generate' => true, 'stub' => 'project-EnvironmentCommand.php.stub']
                 ]],
                 'route'           => ['type' => 'dir','path' => 'Routes', 'generate' => true, 'stub' => null, 'files' => []],
                 'event'           => ['type' => 'dir','path' => 'Events', 'generate' => false, 'stub' => null, 'files' => []],
                 'observer'        => ['type' => 'dir','path' => 'Observers', 'generate' => true, 'stub' => null, 'files' => []],
+                'data'            => ['type' => 'dir','path' => 'Datas', 'generate' => true, 'stub' => null, 'files' => []],
                 'policy'          => ['type' => 'dir','path' => 'Policies', 'generate' => true, 'stub' => null, 'files' => []],
                 'job'             => ['type' => 'dir','path' => 'Jobs', 'generate' => false, 'stub' => null, 'files' => []],
                 'resource'        => ['type' => 'dir','path' => 'Resources', 'generate' => false, 'stub' => null, 'files' => []],
-                'seeder'          => ['type' => 'dir','path' => 'Database/Seeders', 'generate' => true, 'stub' => null, 'files' => []],
+                'seeder'          => ['type' => 'dir','path' => 'Database/Seeders', 'generate' => true, 'stub' => null, 'files' => [
+                    'DatabaseSeeder' => ['generate' => true, 'stub' => 'DatabaseSeeder.php.stub']
+                ]],
                 'middleware'      => ['type' => 'dir','path' => 'Middleware', 'generate' => true, 'stub' => null, 'files' => []],
                 'request'         => ['type' => 'dir','path' => 'Requests', 'generate' => true, 'stub' => null, 'files' => []],
                 'support'         => ['type' => 'dir','path' => 'Supports', 'generate' => true, 'stub' => null, 'files' => [

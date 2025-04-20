@@ -1,6 +1,6 @@
 <?php 
 
-namespace {{NAMESPACE}}\{{support}};
+namespace {{NAMESPACE}}\{{support_namespace}};
 
 class PathRegistry
 {

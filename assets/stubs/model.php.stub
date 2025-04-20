@@ -1,11 +1,11 @@
 <?php
 
-namespace {{NAMESPACE}}\{{model}}\{{MODEL_NAME}};
+namespace {{NAMESPACE}}\{{model_namespace}}\{{MODEL_NAME}};
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Hanafalah\LaravelHasProps\Concerns\HasProps;
 use Hanafalah\LaravelSupport\Models\BaseModel;
-use {{NAMESPACE}}\{{resource}}\{{MODEL_NAME}}\{
+use {{NAMESPACE}}\{{resource_namespace}}\{{MODEL_NAME}}\{
     View{{MODEL_NAME}},
     Show{{MODEL_NAME}}
 };

@@ -7,7 +7,8 @@ use Hanafalah\LaravelStub\Facades\Stub;
 use Illuminate\Support\Str;
 
 use function Laravel\Prompts\{
-    select
+    select, text
+
 };
 
 trait HasGenerator{
@@ -62,6 +63,7 @@ trait HasGenerator{
         $this->__replacements['FIRST_NAMESPACE']            = $this->__first_namespace;
         $this->__replacements['SNAKE_NAMESPACE']            = implode('\\\\',$namespaces);
         $this->__replacements['CLASS_BASENAME']             = $class_basename;
+        $this->__replacements['LOWER_CLASS_BASENAME']       = Str::lower($class_basename);
         $this->__replacements['SNAKE_LOWER_CLASS_BASENAME'] = $this->__snake_lower_class_basename;
         $this->__replacements['SNAKE_CLASS_BASENAME']       = $this->__snake_class_basename;
         return $this;
@@ -81,18 +83,28 @@ trait HasGenerator{
         return $this;
     }
 
-    protected function initiateAuthor(): self{
-        $this->__author_name  = cache()->rememberForever('package-author', function() {
-            return $this->option('package-author') ?? $this->ask('Tolong isi nama author:');
-        });
-        
-        $this->__author_email = cache()->rememberForever('package-email', function() {
-            return $this->option('package-email') ?? $this->ask('Tolong isi email author:');
-        });
 
-        $this->info('Author: '.$this->__author_name.' ('.$this->__author_email.')');
+    protected function initiateAuthor(): self
+    {
+        $this->__author_name = $this->option('package-author') 
+            ?? text(
+                label: 'Tolong isi nama author:',
+                placeholder: 'Contoh: Hamzah',
+                required: true
+            );
+    
+        $this->__author_email = $this->option('package-email') 
+            ?? text(
+                label: 'Tolong isi email author:',
+                placeholder: 'Contoh: hamzah@email.com',
+                required: true
+            );
+    
+        $this->info("Author: {$this->__author_name} ({$this->__author_email})");
+    
         return $this;
     }
+    
 
     protected function initiateReplacement(): self{
         $this->__replacements = array_merge($this->__replacements,[
@@ -142,6 +154,15 @@ trait HasGenerator{
             }
         }
         $this->__replacements['LIBS'] = $this->__libs;
+        $this->__replacements['NAMESPACES'] = [];
+        foreach ($this->__replacements['LIBS'] as $key => $namespace) {
+            $namespaces = explode('/', $namespace);
+            foreach ($namespaces as &$namespace) {
+                $namespace = Str::studly($namespace);
+            }
+            $namespace = implode('\\', $namespaces);
+            $this->__replacements['NAMESPACES'][$key.'_namespace'] = $namespace;
+        }
         foreach ($this->__generator_lists as $key => $generator) {
             $filename = $generator['filename'] ?? $key;
             if ($generator['generate']){

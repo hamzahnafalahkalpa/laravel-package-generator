@@ -1,9 +1,9 @@
 <?php
 
 use {{NAMESPACE}}\{
-    {{model}} as {{CLASS_BASENAME}}Models,
-    {{command}} as {{CLASS_BASENAME}}Commands,
-    {{contract}}
+    {{model_namespace}},
+    {{command_namespace}},
+    {{contract_namespace}}
 };
 
 return [
@@ -16,11 +16,14 @@ return [
         ],
     ],
     'commands'  => [
-        {{CLASS_BASENAME}}Commands\InstallMakeCommand::class
+        Commands\SeedCommand::class,
+        Commands\MigrateCommand::class,
+        Commands\InstallMakeCommand::class
     ],
     'libs' => {{LIBS}},
     'database' => [
         'models' => [
         ]
-    ]
+    ],
+    "provider" => "{{NAMESPACE}}\\{{provider_namespace}}\\{{CLASS_BASENAME}}ServiceProvider"
 ];

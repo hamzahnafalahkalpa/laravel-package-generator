@@ -1,14 +1,16 @@
 <?php
 
-namespace {{NAMESPACE}}\Providers;
+namespace {{NAMESPACE}}\{{provider_namespace}};
 
 use Illuminate\Support\ServiceProvider;
-use {{NAMESPACE}}\{{command}};
+use {{NAMESPACE}}\{{command_namespace}};
 
 class CommandServiceProvider extends ServiceProvider
 {
     protected $__commands = [
-        {{command}}\InstallMakeCommand::class
+        {{command_namespace}}\MigrateCommand::class,
+        {{command_namespace}}\SeedCommand::class,
+        {{command_namespace}}\InstallMakeCommand::class
     ];
 
     /**

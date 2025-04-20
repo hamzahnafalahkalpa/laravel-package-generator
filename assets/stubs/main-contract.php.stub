@@ -1,6 +1,6 @@
 <?php
 
-namespace {{NAMESPACE}}\{{contract}};
+namespace {{NAMESPACE}}\{{contract_namespace}};
 
 use Hanafalah\LaravelSupport\Contracts\Supports\DataManagement;
 

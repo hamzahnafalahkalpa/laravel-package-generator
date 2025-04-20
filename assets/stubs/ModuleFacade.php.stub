@@ -11,6 +11,6 @@ class {{CLASS_BASENAME}} extends \Illuminate\Support\Facades\Facade
    */
   protected static function getFacadeAccessor()
   {
-    return \{{NAMESPACE}}\{{contract}}\{{CLASS_BASENAME}}::class;
+    return \{{NAMESPACE}}\{{contract_namespace}}\{{CLASS_BASENAME}}::class;
   }
 }

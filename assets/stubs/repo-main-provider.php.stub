@@ -16,7 +16,7 @@ class {{CLASS_BASENAME}}ServiceProvider extends BaseServiceProvider
     public function register()
     {
         $this->registerMainClass({{CLASS_BASENAME}}::class)
-            ->registerCommandService({{provider}}\CommandServiceProvider::class)
+            ->registerCommandService({{provider_namespace}}\CommandServiceProvider::class)
             ->registers(['*']);
     }
 
