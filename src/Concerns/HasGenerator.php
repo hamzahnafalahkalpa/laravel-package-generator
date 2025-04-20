@@ -49,7 +49,7 @@ trait HasGenerator{
     }
 
     protected function readPackageBasename(): self{
-        $this->__namespace                  = $this->argument('namespace');
+        $this->__namespace                  = Str::replace('/','\\',$this->argument('namespace'));
         $this->__class_basename             = $class_basename = Str::afterLast($this->__namespace,'\\');
         $this->__snake_class_basename       = Str::snake($class_basename,'-');
         $this->__snake_lower_class_basename = Str::snake($class_basename);
@@ -174,7 +174,11 @@ trait HasGenerator{
                 $filename = Str::replace($match, $this->__replacements[$matches[1][$key]], $filename);
             }
             $ext = Str::replace('.stub','', $generator['stub']);
-            $ext = Str::startsWith($ext,'.') ? '' : '.'.Str::afterLast($ext, '.');
+            if (preg_match('/^\.[a-zA-Z]/', $ext)) {
+                $ext = ''; // Dotfile: nggak tambahin ekstensi
+            } else {
+                $ext = '.'.Str::afterLast($ext, '.');
+            }
             Stub::init(generator_stub_path($generator['stub']),$this->__replacements)
                 ->saveTo($this->getPackageSource($generator['path']).'/',$filename.$ext);
         });

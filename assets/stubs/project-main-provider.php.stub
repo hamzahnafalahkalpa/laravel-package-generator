@@ -15,7 +15,6 @@ use {{NAMESPACE}}\{
     Contracts,
     Facades
 };
-//use {{NAMESPACE}}\Data\ModuleWorkspace\WorkspaceSettingData;
 use Hanafalah\LaravelSupport\Middlewares\PayloadMonitoring;
 
 class {{CLASS_BASENAME}}ServiceProvider extends {{CLASS_BASENAME}}Environment
