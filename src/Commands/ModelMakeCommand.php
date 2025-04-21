@@ -4,13 +4,18 @@ namespace Hanafalah\LaravelPackageGenerator\Commands;
 
 use Hanafalah\LaravelSupport\Commands\BaseCommand;
 
+use function Laravel\Prompts\multiselect;
+use Illuminate\Support\Str;
+
 class ModelMakeCommand extends BaseCommand
 {
     protected $signature = 'generator:make-model 
                 {name}
-                {--pattern= : Pattern yang digunakan}';
+                {--pattern= : Pattern yang digunakan}
+                {--class-basename= : Nama class yang digunakan}';
     protected $description = 'Create a new model using path registry';
     protected $type = 'Model';
+    protected $__generates;
 
     protected function getStub()
     {
@@ -43,7 +48,33 @@ class ModelMakeCommand extends BaseCommand
         $this->__replacements['BOOTED_SECTION'] = null;
         $this->__replacements['SCOPE_SECTION'] = null;
         $this->__replacements['EIGER_SECTION'] = null;
-        $stub = $this->generateFile($this->argument('name'),$this->__config_generator['patterns'][$this->__pattern]['generates']['model']);
+        $generates = $this->__config_generator['patterns'][$this->__pattern]['generates']['model'];
+        $generates['stub'] = 'model.php.stub';
+        $stub = $this->generateFile($this->argument('name'),$generates,false);
+
+        $supports = multiselect(
+            label: 'Model Support Systems ?',
+            options: ['Schema']
+        );
+        $this->call('generator:make-'.Str::lower('Schema'),[
+            'name' => $this->argument('name'),
+            '--pattern' => $this->__pattern,
+            '--class-basename' => $this->__class_basename
+        ]);
+        // foreach ($supports as $support) {
+        // }
+
+        $this->call('generator:make-resource',[
+            'name'      => $this->argument('name'),
+            '--pattern' => $this->__pattern,
+            '--class-basename' => $this->__class_basename
+        ]);
+
+        $this->call('generator:make-show-resource',[
+            'name'      => $this->argument('name'),
+            '--pattern' => $this->__pattern,
+            '--class-basename' => $this->__class_basename
+        ]);
 
         return $this;
     }

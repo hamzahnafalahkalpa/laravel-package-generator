@@ -1,0 +1,9 @@
+<?php
+
+namespace {{NAMESPACE}}\{{contract_namespace}}\{{schema_namespace}};
+
+use Hanafalah\LaravelSupport\Contracts\Supports\DataManagement;
+
+interface {{CONTRACT_NAME}} extends DataManagement{
+
+}

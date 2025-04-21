@@ -66,7 +66,11 @@ trait HasGenerator{
         if ($this->getDefinition()->hasArgument('namespace')){
             $this->__namespace = Str::replace('/','\\',$this->argument('namespace'));
         }
-        $this->__class_basename = Str::afterLast($this->__namespace,'\\');
+        if ($this->getDefinition()->hasOption('class-basename')) {
+            $this->__class_basename = $this->option('class-basename') ?? Str::afterLast($this->__namespace,'\\');
+        }else{
+            $this->__class_basename = Str::afterLast($this->__namespace,'\\');
+        }
         $class_basename = $this->__class_basename;
         $this->__snake_class_basename       = Str::snake($class_basename,'-');
         $this->__snake_lower_class_basename = Str::snake($class_basename);
@@ -146,7 +150,7 @@ trait HasGenerator{
 
     protected function chooseClassBasename(string $pattern): self{
         $base_names = $this->scanListByPattern($pattern);
-        $this->__class_basename = $class_basename = Str::studly(select(
+        $this->__class_basename = $class_basename = $this->option('class-basename') ?? Str::studly(select(
             label: 'Choose Class Basename?',
             options: $base_names,
             default: $base_names[0] ?? null,
@@ -239,7 +243,7 @@ trait HasGenerator{
                     if (isset($generator['files']) && count($generator['files']) > 0){
                         foreach ($generator['files'] as $key_file => $file) {
                             $file['type'] = 'file';
-                            $file['path'] = $generator['path'];
+                            $file['path'] = $generator['path'].(isset($file['path']) ? '/'.$file['path'] : '');
                             $filename = $file['filename'] ?? $key_file;
                             $this->generateFile($filename,$file);
                         }
@@ -254,8 +258,8 @@ trait HasGenerator{
         return $this;
     }
     
-    protected function generateFile(string $filename, array $generator): string{
-        $this->cardLine('Generating '.$filename,function() use ($generator,$filename){
+    protected function generateFile(string $filename, array $generator, ?bool $save = true): string{
+        $this->cardLine('Generating '.$filename,function() use ($generator,$filename, $save){
             preg_match_all('/' . $this->__open . '(.*?)' . $this->__close . '/', $filename, $matches);
             foreach ($matches[0] as $key => $match) {
                 if (!isset($this->__replacements[$matches[1][$key]])) {
@@ -271,7 +275,7 @@ trait HasGenerator{
             }
             $stub = Stub::init(generator_stub_path($generator['stub']),$this->__replacements);
             $this->__render = $stub->render();
-            $stub->saveTo($this->getPackageSource($generator['path']).'/',$filename.$ext);
+            if ($save) $stub->saveTo($this->getPackageSource($generator['path']).'/',$filename.$ext);
         });
         return $this->__render;
     }

@@ -8,9 +8,15 @@ use Hanafalah\LaravelPackageGenerator\Commands;
 class CommandServiceProvider extends ServiceProvider
 {
     protected $__commands = [
-        Commands\InstallMakeCommand::class,
+        Commands\DataContractMakeCommand::class,
+        Commands\DataMakeCommand::class,
         Commands\GeneratePackageCommand::class,
-        Commands\ModelMakeCommand::class
+        Commands\InstallMakeCommand::class,
+        Commands\ModelMakeCommand::class,
+        Commands\ResourceMakeCommand::class,
+        Commands\SchemaContractMakeCommand::class,
+        Commands\SchemaMakeCommand::class,
+        Commands\ShowResourceMakeCommand::class,
     ];
 
     public function register()
