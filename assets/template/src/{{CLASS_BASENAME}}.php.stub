@@ -1,8 +1,0 @@
-<?php
-
-namespace {{CLASS_AUTHOR}}\{{CLASS_BASENAME}};
-
-use {{CLASS_AUTHOR}}\{{CLASS_BASENAME}}\Contracts\{{CLASS_BASENAME}} as Contracts{{CLASS_BASENAME}};
-use {{CLASS_AUTHOR}}\{{CLASS_BASENAME}}\Supports\Base{{CLASS_BASENAME}};
-
-class {{CLASS_BASENAME}} extends Base{{CLASS_BASENAME}} implements Contracts{{CLASS_BASENAME}} {}
