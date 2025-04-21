@@ -54,15 +54,15 @@ class ModelMakeCommand extends BaseCommand
 
         $supports = multiselect(
             label: 'Model Support Systems ?',
-            options: ['Schema']
+            options: ['Schema','Controller']
         );
-        $this->call('generator:make-'.Str::lower('Schema'),[
-            'name' => $this->argument('name'),
-            '--pattern' => $this->__pattern,
-            '--class-basename' => $this->__class_basename
-        ]);
-        // foreach ($supports as $support) {
-        // }
+        foreach ($supports as $support) {
+            $this->call('generator:make-'.Str::lower($support),[
+                'name' => $this->argument('name'),
+                '--pattern' => $this->__pattern,
+                '--class-basename' => $this->__class_basename
+            ]);
+        }
 
         $this->call('generator:make-resource',[
             'name'      => $this->argument('name'),

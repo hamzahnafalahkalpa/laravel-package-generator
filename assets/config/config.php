@@ -21,7 +21,7 @@ return [
                 ]],
                 'migration'         => ['type' => 'dir','path' => '../assets/database/migrations', 'generate' => true, 'stub' => null, 'files'=>[]],
                 'model'             => ['type' => 'dir','path' => 'Models','generate' => true, 'stub' => 'model.php.stub', 'files'=>[]],
-                'controller'        => ['type' => 'dir','path' => 'Controllers','generate' => false, 'stub' => null, 'files'=>[
+                'controller'        => ['type' => 'dir','path' => 'Controllers','generate' => true, 'stub' => null, 'files'=>[
                     'ApiController' => ['generate' => true, 'path' => 'API', 'stub' => 'repo-api-controller.php.stub']
                 ]],
                 'provider'          => ['type' => 'dir','path' => 'Providers','generate' => true, 'stub' => null, 'files'=>[
@@ -51,7 +51,7 @@ return [
                     'DatabaseSeeder' => ['generate' => true, 'stub' => 'DatabaseSeeder.php.stub'],
                 ]],
                 'middleware'        => ['type' => 'dir','path' => 'Middleware', 'generate' => true, 'stub' => null, 'files'=>[]],
-                'request'           => ['type' => 'dir','path' => 'Requests', 'generate' => false, 'stub' => null, 'files'=>[]],
+                'request'           => ['type' => 'dir','path' => 'Requests', 'generate' => true, 'stub' => null, 'files'=>[]],
                 'support'           => ['type' => 'dir','path' => 'Supports', 'generate' => true, 'stub' => null, 'files'=>[
                     'Base{{CLASS_BASENAME}}' => ['generate' => true, 'stub' => 'BaseSupport.php.stub']
                 ]],
@@ -159,12 +159,15 @@ return [
         ]
     ],
     'commands' => [
+        Commands\ControllerMakeCommand::class,
         Commands\DataContractMakeCommand::class,
         Commands\DataMakeCommand::class,
         Commands\GeneratePackageCommand::class,
         Commands\InstallMakeCommand::class,
         Commands\ModelMakeCommand::class,
         Commands\ResourceMakeCommand::class,
+        Commands\RequestMakeCommand::class,
+        Commands\RouteMakeCommand::class,
         Commands\SchemaContractMakeCommand::class,
         Commands\SchemaMakeCommand::class,
         Commands\ShowResourceMakeCommand::class,
