@@ -38,7 +38,7 @@ class SchemaMakeCommand extends BaseCommand
         $this->initGenerator()->setLibs();
         $this->initiateLibsReplacement();
         $this->__replacements['SCHEMA_NAME'] = $this->argument('name');
-        $this->__replacements['LOWER_SCHEMA_NAME'] = Str::lower($this->argument('name'));
+        $this->__replacements['SNAKE_LOWER_SCHEMA_NAME'] = Str::snake($this->argument('name'));
         $generates = $this->__config_generator['patterns'][$this->__pattern]['generates']['schema'];
         $generates['stub'] = 'schema.php.stub';
         $stub = $this->generateFile($this->argument('name'),$generates,false);

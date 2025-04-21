@@ -13,33 +13,32 @@ use {{NAMESPACE}}\{{contract_namespace}}\Data\{{SCHEMA_NAME}}Data;
 class {{SCHEMA_NAME}} extends Base{{CLASS_BASENAME}} implements Contracts{{SCHEMA_NAME}}
 {
     protected string $__entity = '{{SCHEMA_NAME}}';
-    public static ${{LOWER_SCHEMA_NAME}}_model;
+    public static ${{SNAKE_LOWER_SCHEMA_NAME}}_model;
 
     protected array $__cache = [
         'index' => [
-            'name'     => '{{LOWER_SCHEMA_NAME}}',
-            'tags'     => ['{{LOWER_SCHEMA_NAME}}', '{{LOWER_SCHEMA_NAME}}-index'],
+            'name'     => '{{SNAKE_LOWER_SCHEMA_NAME}}',
+            'tags'     => ['{{SNAKE_LOWER_SCHEMA_NAME}}', '{{SNAKE_LOWER_SCHEMA_NAME}}-index'],
             'forever'  => true
         ]
     ];
 
-    public function prepareStore{{SCHEMA_NAME}}({{SCHEMA_NAME}}Data ${{LOWER_SCHEMA_NAME}}_dto): Model{
-        ${{LOWER_SCHEMA_NAME}} = $this->{{SCHEMA_NAME}}Model()->updateOrCreate([
-                        'id' => ${{LOWER_SCHEMA_NAME}}_dto->id ?? null
+    public function prepareStore{{SCHEMA_NAME}}({{SCHEMA_NAME}}Data ${{SNAKE_LOWER_SCHEMA_NAME}}_dto): Model{
+        ${{SNAKE_LOWER_SCHEMA_NAME}} = $this->{{SCHEMA_NAME}}Model()->updateOrCreate([
+                        'id' => ${{SNAKE_LOWER_SCHEMA_NAME}}_dto->id ?? null
                     ], [
-                        'name' => ${{LOWER_SCHEMA_NAME}}_dto->name
+                        'name' => ${{SNAKE_LOWER_SCHEMA_NAME}}_dto->name
                     ]);
-        static::${{LOWER_SCHEMA_NAME}}_model = ${{LOWER_SCHEMA_NAME}};
-        return ${{LOWER_SCHEMA_NAME}};
+        return static::${{SNAKE_LOWER_SCHEMA_NAME}}_model = ${{SNAKE_LOWER_SCHEMA_NAME}};
     }
 
-    public function store{{SCHEMA_NAME}}(?{{SCHEMA_NAME}}Data ${{LOWER_SCHEMA_NAME}}_dto = null): array{
-        return $this->transaction(function() use (${{LOWER_SCHEMA_NAME}}_dto){
-            return $this->show{{SCHEMA_NAME}}($this->prepareStore{{SCHEMA_NAME}}(${{LOWER_SCHEMA_NAME}}_dto ?? $this->requestDTO({{SCHEMA_NAME}}Data::class)));
+    public function store{{SCHEMA_NAME}}(?{{SCHEMA_NAME}}Data ${{SNAKE_LOWER_SCHEMA_NAME}}_dto = null): array{
+        return $this->transaction(function() use (${{SNAKE_LOWER_SCHEMA_NAME}}_dto){
+            return $this->show{{SCHEMA_NAME}}($this->prepareStore{{SCHEMA_NAME}}(${{SNAKE_LOWER_SCHEMA_NAME}}_dto ?? $this->requestDTO({{SCHEMA_NAME}}Data::class)));
         });
     }
 
-    public function {{LOWER_SCHEMA_NAME}}(mixed $conditionals = null): Builder{
+    public function {{SNAKE_LOWER_SCHEMA_NAME}}(mixed $conditionals = null): Builder{
         $this->booting();
         return $this->{{SCHEMA_NAME}}Model()->withParameters()
                     ->conditionals($this->mergeCondition($conditionals ?? []))
