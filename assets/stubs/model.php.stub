@@ -9,14 +9,20 @@ use {{NAMESPACE}}\{{resource_namespace}}\{{MODEL_NAME}}\{
     View{{MODEL_NAME}},
     Show{{MODEL_NAME}}
 };
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 
 class {{MODEL_NAME}} extends BaseModel
 {
-    use HasProps, SoftDeletes;
+    use HasUlids, HasProps, SoftDeletes;
     
+    public $incrementing  = false;
+    protected $keyType    = 'string';
+    protected $primaryKey = 'id';
     public $list = {{LIST}};
 
-    protected $casts = [];
+    protected $casts = [
+        'name' => 'string'
+    ];
 
     {{BOOTED_SECTION}}
 

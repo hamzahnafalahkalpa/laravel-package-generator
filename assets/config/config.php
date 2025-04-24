@@ -166,6 +166,7 @@ return [
         Commands\DataMakeCommand::class,
         Commands\GeneratePackageCommand::class,
         Commands\InstallMakeCommand::class,
+        Commands\MigrationMakeCommand::class,
         Commands\ModelMakeCommand::class,
         Commands\ResourceMakeCommand::class,
         Commands\RequestMakeCommand::class,

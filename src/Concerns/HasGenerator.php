@@ -20,7 +20,7 @@ trait HasGenerator{
     protected string $__base_stub;
     protected string $__at_source, $__relative_path, $__pattern;
     protected string $__open, $__close, $__render;
-    protected array $__generator_lists, $__config_generator, $__config_basename, $__replacements = [];
+    protected ?array $__generator_lists, $__config_generator, $__config_basename, $__replacements = [];
     protected mixed $__namespace, $__class_basename, 
         $__first_namespace,
         $__snake_class_basename,

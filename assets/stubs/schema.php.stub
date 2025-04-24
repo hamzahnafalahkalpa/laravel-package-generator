@@ -19,9 +19,13 @@ class {{SCHEMA_NAME}} extends Base{{CLASS_BASENAME}} implements Contracts{{SCHEM
         'index' => [
             'name'     => '{{SNAKE_LOWER_SCHEMA_NAME}}',
             'tags'     => ['{{SNAKE_LOWER_SCHEMA_NAME}}', '{{SNAKE_LOWER_SCHEMA_NAME}}-index'],
-            'forever'  => true
+            'duration' => 24 * 60
         ]
     ];
+
+    public function prepareStore(array $data){
+        return $this->prepareStore{{SCHEMA_NAME}}($this->requestDTO({{SCHEMA_NAME}}Data::class,$data));
+    }
 
     public function prepareStore{{SCHEMA_NAME}}({{SCHEMA_NAME}}Data ${{SNAKE_LOWER_SCHEMA_NAME}}_dto): Model{
         ${{SNAKE_LOWER_SCHEMA_NAME}} = $this->{{SCHEMA_NAME}}Model()->updateOrCreate([
@@ -29,6 +33,8 @@ class {{SCHEMA_NAME}} extends Base{{CLASS_BASENAME}} implements Contracts{{SCHEM
                     ], [
                         'name' => ${{SNAKE_LOWER_SCHEMA_NAME}}_dto->name
                     ]);
+        $this->fillingProps(${{SNAKE_LOWER_SCHEMA_NAME}},${{SNAKE_LOWER_SCHEMA_NAME}}_dto->props);
+        ${{SNAKE_LOWER_SCHEMA_NAME}}->save();
         return static::${{SNAKE_LOWER_SCHEMA_NAME}}_model = ${{SNAKE_LOWER_SCHEMA_NAME}};
     }
 
@@ -38,7 +44,7 @@ class {{SCHEMA_NAME}} extends Base{{CLASS_BASENAME}} implements Contracts{{SCHEM
         });
     }
 
-    public function {{SNAKE_LOWER_SCHEMA_NAME}}(mixed $conditionals = null): Builder{
+    public function {{CAMEL_SCHEMA_NAME}}(mixed $conditionals = null): Builder{
         $this->booting();
         return $this->{{SCHEMA_NAME}}Model()->withParameters()
                     ->conditionals($this->mergeCondition($conditionals ?? []))

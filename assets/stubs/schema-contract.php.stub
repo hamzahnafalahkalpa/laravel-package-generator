@@ -2,8 +2,28 @@
 
 namespace {{NAMESPACE}}\{{contract_namespace}}\{{schema_namespace}};
 
+use {{NAMESPACE}}\{{contract_namespace}}\{{data_namespace}}\{{CONTRACT_NAME}}Data;
 use Hanafalah\LaravelSupport\Contracts\Supports\DataManagement;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
-interface {{CONTRACT_NAME}} extends DataManagement{
+/**
+ * @see \{{NAMESPACE}}\{{schema_namespace}}\{{CONTRACT_NAME}}
+ * @method self conditionals(mixed $conditionals)
+ * @method bool delete{{CONTRACT_NAME}}()
+ * @method bool prepareDelete{{CONTRACT_NAME}}(? array $attributes = null)
+ * @method mixed get{{CONTRACT_NAME}}()
+ * @method ?Model prepareShow{{CONTRACT_NAME}}(?Model $model = null, ?array $attributes = null)
+ * @method array show{{CONTRACT_NAME}}(?Model $model = null)
+ * @method Collection prepareView{{CONTRACT_NAME}}List()
+ * @method array view{{CONTRACT_NAME}}List()
+ * @method LengthAwarePaginator prepareView{{CONTRACT_NAME}}Paginate(PaginateData $paginate_dto)
+ * @method array view{{CONTRACT_NAME}}Paginate(?PaginateData $paginate_dto = null)
+ */
 
+interface {{CONTRACT_NAME}} extends DataManagement
+{
+    public function prepareStore{{CONTRACT_NAME}}({{CONTRACT_NAME}}Data ${{SNAKE_LOWER_CONTRACT_NAME}}_dto): Model;
+    public function store{{CONTRACT_NAME}}(?{{CONTRACT_NAME}}Data ${{SNAKE_LOWER_CONTRACT_NAME}}_dto = null): array;
+    public function {{CAMEL_CONTRACT_NAME}}(mixed $conditionals = null): Builder;
 }

@@ -15,6 +15,7 @@ class SchemaContractMakeCommand extends BaseCommand
     protected $description = 'Create a new contract using path registry';
     protected $type = 'Schema';
     protected $__generates;
+    protected $__name;
 
     protected function getStub()
     {
@@ -24,7 +25,8 @@ class SchemaContractMakeCommand extends BaseCommand
     protected function getPath($name): string{
         if (!isset($this->__namespace)) $this->choosePattern();
         $path = $this->__config_basename['libs']['schema'];
-        return $this->getBaseContractPath().'/'.$path.'/'.$this->argument('name').'.php';
+        $this->__name = Str::studly($this->argument('name'));
+        return $this->getBaseContractPath().'/'.$path.'/'.$this->__name.'.php';
     }
 
     /**
@@ -38,11 +40,13 @@ class SchemaContractMakeCommand extends BaseCommand
     {
         $this->initGenerator()->setLibs();
         $this->initiateLibsReplacement();
-        $this->__replacements['CONTRACT_NAME'] = $this->argument('name');
+        $this->__replacements['CONTRACT_NAME'] = $this->__name;
+        $this->__replacements['SNAKE_LOWER_CONTRACT_NAME'] = Str::snake($this->__name);
+        $this->__replacements['CAMEL_CONTRACT_NAME'] = Str::camel($this->__name);
 
         $generates = $this->__config_generator['patterns'][$this->__pattern]['generates']['contract'];
         $generates['stub']  = 'schema-contract.php.stub';
-        $stub = $this->generateFile($this->argument('name'),$generates,false);
+        $stub = $this->generateFile($this->__name,$generates,false);
         return $this;
     }
 

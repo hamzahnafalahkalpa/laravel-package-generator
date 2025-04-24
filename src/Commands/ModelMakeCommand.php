@@ -16,6 +16,7 @@ class ModelMakeCommand extends BaseCommand
     protected $description = 'Create a new model using path registry';
     protected $type = 'Model';
     protected $__generates;
+    protected $__name;
 
     protected function getStub()
     {
@@ -29,7 +30,8 @@ class ModelMakeCommand extends BaseCommand
 
     protected function getPath($name): string{
         if (!isset($this->__namespace)) $this->choosePattern();
-        return $this->getBaseModelPath().'/'.$this->argument('name').'.php';
+        $this->__name = Str::replace(' ','',$this->argument('name'));
+        return $this->getBaseModelPath().'/'.$this->__name.'.php';
     }
 
     /**
@@ -43,35 +45,35 @@ class ModelMakeCommand extends BaseCommand
     {
         $this->initGenerator()->setLibs();
         $this->initiateLibsReplacement();
-        $this->__replacements['MODEL_NAME'] = $this->argument('name');
-        $this->__replacements['LIST'] = ['id','props'];
+        $this->__replacements['MODEL_NAME'] = $this->__name;
+        $this->__replacements['LIST'] = ['id','name','props'];
         $this->__replacements['BOOTED_SECTION'] = null;
         $this->__replacements['SCOPE_SECTION'] = null;
         $this->__replacements['EIGER_SECTION'] = null;
         $generates = $this->__config_generator['patterns'][$this->__pattern]['generates']['model'];
         $generates['stub'] = 'model.php.stub';
-        $stub = $this->generateFile($this->argument('name'),$generates,false);
+        $stub = $this->generateFile($this->__name,$generates,false);
 
         $supports = multiselect(
             label: 'Model Support Systems ?',
-            options: ['Schema','Controller']
+            options: ['Schema','Migration','Controller']
         );
         foreach ($supports as $support) {
             $this->call('generator:make-'.Str::lower($support),[
-                'name' => $this->argument('name'),
-                '--pattern' => $this->__pattern,
+                'name'             => $this->__name,
+                '--pattern'        => $this->__pattern,
                 '--class-basename' => $this->__class_basename
             ]);
         }
 
         $this->call('generator:make-resource',[
-            'name'      => $this->argument('name'),
+            'name'      => $this->__name,
             '--pattern' => $this->__pattern,
             '--class-basename' => $this->__class_basename
         ]);
 
         $this->call('generator:make-show-resource',[
-            'name'      => $this->argument('name'),
+            'name'      => $this->__name,
             '--pattern' => $this->__pattern,
             '--class-basename' => $this->__class_basename
         ]);

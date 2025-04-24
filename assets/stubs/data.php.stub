@@ -13,6 +13,10 @@ class {{DATA_NAME}}Data extends Data implements Data{{DATA_NAME}}Data
     #[MapName('id')]
     public mixed $id = null;
 
+    #[MapInputName('name')]
+    #[MapName('name')]
+    public string $name;
+
     #[MapInputName('props')]
     #[MapName('props')]
     public ?array $props = null;
