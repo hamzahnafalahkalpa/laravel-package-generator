@@ -3,8 +3,5 @@
 namespace {{NAMESPACE}}\{{controller_namespace}}\API;
 
 use App\Http\Controllers\ApiController as ControllersApiController;
-use Illuminate\Support\Facades\Auth;
 
-abstract class ApiController extends ControllersApiController
-{
-}
+class ApiController extends ControllersApiController{}

@@ -23,12 +23,8 @@ class {{SCHEMA_NAME}} extends Base{{CLASS_BASENAME}} implements Contracts{{SCHEM
         ]
     ];
 
-    public function prepareStore(array $data){
-        return $this->prepareStore{{SCHEMA_NAME}}($this->requestDTO({{SCHEMA_NAME}}Data::class,$data));
-    }
-
     public function prepareStore{{SCHEMA_NAME}}({{SCHEMA_NAME}}Data ${{SNAKE_LOWER_SCHEMA_NAME}}_dto): Model{
-        ${{SNAKE_LOWER_SCHEMA_NAME}} = $this->{{SCHEMA_NAME}}Model()->updateOrCreate([
+        ${{SNAKE_LOWER_SCHEMA_NAME}} = $this->usingEntity()->updateOrCreate([
                         'id' => ${{SNAKE_LOWER_SCHEMA_NAME}}_dto->id ?? null
                     ], [
                         'name' => ${{SNAKE_LOWER_SCHEMA_NAME}}_dto->name
@@ -36,18 +32,5 @@ class {{SCHEMA_NAME}} extends Base{{CLASS_BASENAME}} implements Contracts{{SCHEM
         $this->fillingProps(${{SNAKE_LOWER_SCHEMA_NAME}},${{SNAKE_LOWER_SCHEMA_NAME}}_dto->props);
         ${{SNAKE_LOWER_SCHEMA_NAME}}->save();
         return static::${{SNAKE_LOWER_SCHEMA_NAME}}_model = ${{SNAKE_LOWER_SCHEMA_NAME}};
-    }
-
-    public function store{{SCHEMA_NAME}}(?{{SCHEMA_NAME}}Data ${{SNAKE_LOWER_SCHEMA_NAME}}_dto = null): array{
-        return $this->transaction(function() use (${{SNAKE_LOWER_SCHEMA_NAME}}_dto){
-            return $this->show{{SCHEMA_NAME}}($this->prepareStore{{SCHEMA_NAME}}(${{SNAKE_LOWER_SCHEMA_NAME}}_dto ?? $this->requestDTO({{SCHEMA_NAME}}Data::class)));
-        });
-    }
-
-    public function {{CAMEL_SCHEMA_NAME}}(mixed $conditionals = null): Builder{
-        $this->booting();
-        return $this->{{SCHEMA_NAME}}Model()->withParameters()
-                    ->conditionals($this->mergeCondition($conditionals ?? []))
-                    ->orderBy('name', 'asc');
     }
 }
