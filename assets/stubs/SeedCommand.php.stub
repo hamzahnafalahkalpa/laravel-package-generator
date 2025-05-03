@@ -10,7 +10,7 @@ class SeedCommand extends EnvironmentCommand{
      *
      * @var string
      */
-    protected $signature = '{{LOWER_CLASS_BASENAME}}:seed {class? : Class name of the seeder}';
+    protected $signature = '{{SNAKE_CLASS_BASENAME}}:seed {class? : Class name of the seeder}';
 
 
     /**

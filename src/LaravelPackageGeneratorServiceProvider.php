@@ -12,15 +12,7 @@ class LaravelPackageGeneratorServiceProvider extends BaseServiceProvider
   {
     $this->registerMainClass(LaravelPackageGenerator::class)
       ->registerCommandService(Providers\CommandServiceProvider::class)
-      ->registers([
-        '*',
-        'Config',
-        // 'Namespace' => function(){
-        //   $this->publishes([
-        //     $this->getAssetPath('templates') => template_base_path(),
-        //   ], 'template');
-        // }
-      ])
+      ->registers(['*'])
       ->appBooting(function ($app) {
         config(['laravel-stub.stub' => config('laravel-package-generator.stub')]);
       });

@@ -13,7 +13,7 @@ class MigrateCommand extends Command
      *
      * @var string
      */
-    protected $signature = '{{LOWER_CLASS_BASENAME}}:migrate {--seed}';
+    protected $signature = '{{SNAKE_CLASS_BASENAME}}:migrate {--seed}';
 
     /**
      * The console command description.
