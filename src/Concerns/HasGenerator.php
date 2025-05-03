@@ -81,7 +81,7 @@ trait HasGenerator{
             $namespace = Str::snake($namespace,'-');
         }
         $this->__replacements['FIRST_NAMESPACE']            = $this->__first_namespace;
-        $this->__replacements['SNAKE_NAMESPACE']            = implode('\\\\',$namespaces);
+        $this->__replacements['SNAKE_NAMESPACE']            = implode('/',$namespaces);
         $this->__replacements['CLASS_BASENAME']             = $class_basename;
         $this->__replacements['LOWER_CLASS_BASENAME']       = Str::lower($class_basename);
         $this->__replacements['SNAKE_LOWER_CLASS_BASENAME'] = $this->__snake_lower_class_basename;
