@@ -43,11 +43,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::group([
-            'middleware' => ['web']
-        ],function(){
-            require __DIR__.'/../Routes/web.php';
-        });
+        if (file_exists(__DIR__.'/../Routes/web.php')){
+            Route::group([
+                'middleware' => ['web']
+            ],function(){
+                require __DIR__.'/../Routes/web.php';
+            });
+        }
     }
 
     /**
@@ -59,11 +61,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::group([
-            'middleware' => ['api'],
-            'prefix'     => '/api'
-        ],function(){
-            require __DIR__.'/../Routes/api.php';
-        });
+        if (file_exists(__DIR__.'/../Routes/api.php')){
+            Route::group([
+                'middleware' => ['api'],
+                'prefix'     => '/api'
+            ],function(){
+                require __DIR__.'/../Routes/api.php';
+            });
+        }
     }
 }

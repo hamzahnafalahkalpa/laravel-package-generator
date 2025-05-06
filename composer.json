@@ -7,7 +7,7 @@
             "Hanafalah\\LaravelPackageGenerator\\": "src/"
         },
         "files": [
-            "src/helper.php"
+            "src/helpers.php"
         ]
     },
     "authors": [

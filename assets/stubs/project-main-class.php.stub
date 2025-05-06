@@ -15,7 +15,7 @@ class {{CLASS_BASENAME}} extends PackageManagement implements Contracts{{CLASS_B
 
     const LOWER_CLASS_NAME = "{{SNAKE_LOWER_CLASS_BASENAME}}";
     //const SERVICE_TYPE     = "tenant";
-    const ID               = "1";
+    const ID               = 1;
 
     public ?Model $model;
 

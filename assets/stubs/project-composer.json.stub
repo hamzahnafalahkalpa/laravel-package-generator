@@ -5,7 +5,7 @@
             "{{FIRST_NAMESPACE}}\\{{CLASS_BASENAME}}\\": "src/"
         },
         "files":[
-            "src/helper.php"
+            "src/helpers.php"
         ]
     },
     "authors": [
