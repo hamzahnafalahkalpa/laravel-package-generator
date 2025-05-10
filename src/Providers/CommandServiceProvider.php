@@ -21,6 +21,7 @@ class CommandServiceProvider extends ServiceProvider
         Commands\SchemaContractMakeCommand::class,
         Commands\SchemaMakeCommand::class,
         Commands\ShowResourceMakeCommand::class,
+        Commands\VendorPublishCommand::class
     ];
 
     public function register()

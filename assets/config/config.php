@@ -175,5 +175,6 @@ return [
         Commands\SchemaContractMakeCommand::class,
         Commands\SchemaMakeCommand::class,
         Commands\ShowResourceMakeCommand::class,
+        Commands\VendorPublishCommand::class
     ]
 ];

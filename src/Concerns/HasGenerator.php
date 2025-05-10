@@ -18,9 +18,9 @@ trait HasGenerator{
     protected array $__stub;
     protected string $__published_at;
     protected string $__base_stub;
-    protected string $__at_source, $__relative_path, $__pattern;
+    protected ?string $__at_source, $__relative_path, $__pattern = null;
     protected string $__open, $__close, $__render;
-    protected ?array $__generator_lists, $__config_generator, $__config_basename, $__replacements = [];
+    protected ?array $__generator_lists, $__config_generator, $__config_basename, $__replacements = [], $__pattern_exceptions = [];
     protected mixed $__namespace, $__class_basename, 
         $__first_namespace,
         $__snake_class_basename,
@@ -158,7 +158,24 @@ trait HasGenerator{
         ));
         $this->__replacements['CLASS_BASENAME'] = $class_basename;
         $this->__config_basename = $config_basename = config(Str::snake($class_basename,'-'));
-        if (!isset($config_basename)) throw new \Exception('Config '.$config_basename.' not found');
+        if (!isset($config_basename)) {
+            $module_path = $this->__config_generator['patterns'][$this->__pattern]['published_at'].DIRECTORY_SEPARATOR.Str::kebab($this->__class_basename);
+            $configFilePath = null;
+            $directory = new \RecursiveDirectoryIterator($module_path);
+            foreach (new \RecursiveIteratorIterator($directory) as $file) {
+                if ($file->getFilename() === 'config.php' && strpos($file->getPath(), 'vendor') === false) {
+                    $configFilePath = $file->getPathname();
+                    break;
+                }
+            }
+
+            if ($configFilePath) {
+                // Process the config.php file
+                $this->__config_basename = $config_basename = include $configFilePath;
+            } else {
+                throw new \Exception('Config '.$config_basename.' not found');
+            }
+        }
         $this->setFirstNamespace(explode('\\',$config_basename['namespace'])[0]);
         $this->setNamespace();
         return $this;
@@ -172,9 +189,12 @@ trait HasGenerator{
 
     protected function choosePattern(): self{
         $this->initialConfig();
-        $pattern  = $this->option('pattern');
+        $pattern  = $this->option('pattern') ?? $this->__pattern ?? null;
         if (!isset($pattern)){
             $patterns = array_keys($this->__config_generator['patterns']);
+            if (count($this->__pattern_exceptions) > 0){
+                $patterns = array_values(array_diff($patterns,$this->__pattern_exceptions));
+            }
             $pattern = select(
                 label: 'Choose Generator Pattern?',
                 options: $patterns,

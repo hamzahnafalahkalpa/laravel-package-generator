@@ -23,11 +23,6 @@ class ModelMakeCommand extends BaseCommand
         return generator_stub_path('model.php.stub');
     }
 
-    // protected function rootNamespace(){
-    //     if (!isset($this->__namespace)) $this->choosePattern();
-    //     return $this->__namespace;
-    // }
-
     protected function getPath($name): string{
         if (!isset($this->__namespace)) $this->choosePattern();
         $this->__name = Str::replace(' ','',$this->argument('name'));
