@@ -18,7 +18,7 @@
     ],
     "require": {
         "hanafalah/laravel-support": "dev-main",
-        "hanafalah/laravel-stub": "^1.0"
+        "hanafalah/laravel-stub": "dev-main"
     },
     "extra": {
         "laravel": {
