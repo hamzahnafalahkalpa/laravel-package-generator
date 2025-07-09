@@ -7,7 +7,7 @@
             "Hanafalah\\LaravelPackageGenerator\\": "src/"
         },
         "files": [
-            "src/helpers.php"
+            "src/helper.php"
         ]
     },
     "authors": [
@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "hanafalah/laravel-package-generator": "1.x-dev as 1.0"
+        "hanafalah/laravel-support": "dev-main"
     },
     "extra": {
         "laravel": {
