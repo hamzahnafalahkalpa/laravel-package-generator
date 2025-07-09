@@ -1,24 +1,13 @@
-<?php
+<?php 
 
-use Illuminate\Support\Str;
-
-if (! function_exists('class_name_builder')) {
-
-    function class_name_builder($name) {
-        return preg_replace('/[^a-zA-Z0-9_]/', '', Str::replace('.','_',Str::ucfirst(Str::camel($name))));
+if (!function_exists('generator_stub_path')) {
+    function generator_stub_path(?string $path = null) {
+        return config('laravel-package-generator.stub.path').($path ? '/' . $path : '');
     }
 }
 
-if (! function_exists('namespace_builder')) {
-    /**
-     * Convert a given string into namespace format
-     * e.g. `Laravel Support` to `laravel_package_generator`
-     *
-     * @param  string  $name
-     * @param  string  $delimiter
-     * @return string
-     */
-    function namespace_builder($name,$delimiter="_") {
-        return Str::snake($name,$delimiter);
+if (!function_exists('template_base_path')) {
+    function template_base_path(?string $path = null) {
+        return base_path(config('laravel-package-generator.template_path','')).($path ? '/' . $path : '');
     }
 }

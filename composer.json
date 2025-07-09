@@ -12,12 +12,13 @@
     },
     "authors": [
         {
-            "name": "hamzah",
+            "name": "hamzah nur al falah",
             "email": "hamzahnafalah@gmail.com"
         }
     ],
     "require": {
-        "hanafalah/laravel-support": "dev-main"
+        "hanafalah/laravel-support": "dev-main",
+        "hanafalah/laravel-stub": "dev-main"
     },
     "extra": {
         "laravel": {

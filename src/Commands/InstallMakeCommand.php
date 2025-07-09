@@ -9,7 +9,7 @@ class InstallMakeCommand extends EnvironmentCommand
      *
      * @var string
      */
-    protected $signature = 'support:install';
+    protected $signature = 'generator:install';
 
 
     /**
@@ -48,21 +48,10 @@ class InstallMakeCommand extends EnvironmentCommand
 
         $this->callSilent('vendor:publish', [
             '--provider' => $provider,
-            '--tag'      => 'migrations'
+            '--tag'      => 'template'
         ]);
 
-        $this->info('✔️  Created migrations');
-
-        if (!$this->isMultitenancy()) {
-            $migrations = $this->canMigrate();
-
-            $this->callSilent('migrate', [
-                '--path' => $migrations
-            ]);
-
-            $this->info('✔️  App table migrated');
-        }
-
+        $this->info('✔️  Publised Template.php');
 
         $this->comment('hanafalah/laravel-package-generator installed successfully.');
     }
