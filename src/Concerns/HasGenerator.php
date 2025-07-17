@@ -159,7 +159,7 @@ trait HasGenerator{
         $this->__replacements['CLASS_BASENAME'] = $class_basename;
         $this->__config_basename = $config_basename = config(Str::snake($class_basename,'-'));
         if (!isset($config_basename)) {
-            $module_path = $this->__config_generator['patterns'][$this->__pattern]['published_at'].DIRECTORY_SEPARATOR.Str::kebab($this->__class_basename);
+            $module_path = base_path($this->__config_generator['patterns'][$this->__pattern]['published_at']).DIRECTORY_SEPARATOR.Str::kebab($this->__class_basename);
             $configFilePath = null;
             $directory = new \RecursiveDirectoryIterator($module_path);
             foreach (new \RecursiveIteratorIterator($directory) as $file) {
@@ -182,7 +182,7 @@ trait HasGenerator{
     }
 
     protected function getPublishedAtByPattern(string $pattern): string{
-        $source = $this->__published_at = $published_at = $this->__config_generator['patterns'][$pattern]['published_at'];
+        $source = $this->__published_at = $published_at = base_path($this->__config_generator['patterns'][$pattern]['published_at']);
         $this->__replacements['LOCAL_PATH'] = Str::replace(base_path().'/','',$published_at);
         return $source;
     }
