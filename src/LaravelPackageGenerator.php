@@ -11,7 +11,7 @@ class LaravelPackageGenerator extends PackageManagement implements ContractsLara
         $projects = $this->mustArray($projects);
         foreach ($projects as $project) {
             if ((request()->hasHeader('appcode') || config('app.dev-mode')) && !app()->isDownForMaintenance()){
-                $path = config("laravel-package-generator.{$project['type']}.published_at").DIRECTORY_SEPARATOR.$project['name'];
+                $path = base_path(config("laravel-package-generator.{$project['type']}.published_at")).DIRECTORY_SEPARATOR.$project['name'];
                 require $path.'/vendor/autoload.php';
                 app()->register($this->replacement($project['provider']));
             }

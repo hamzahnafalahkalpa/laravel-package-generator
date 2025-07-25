@@ -12,7 +12,7 @@ return [
     ],
     'patterns'        => [
         'repository' => [
-            'published_at' => base_path('repositories'),
+            'published_at' => 'repositories',
             //files has same structure with main generate
             'generates' => [
                 'asset'             => ['type' => 'dir','path' => '../assets', 'generate' => true, 'stub' => null, 'files'=>[]],
